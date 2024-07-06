@@ -9,8 +9,8 @@ service BotsService {
 }
 
 message ProcessRequest {
-    int64  botId  = 1;
-    int64  userId = 2;
+    uint64  botId  = 1;
+    uint64  userId = 2;
     string text   = 3;
 }
 
