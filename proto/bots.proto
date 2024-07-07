@@ -2,15 +2,31 @@ syntax = "proto3";
 
 package itsreg.bots;
 
-option go_package = "gen/bots";
+option go_package = "pb.bots";
 
 service BotsService {
+    rpc Create(CreateRequest) returns (CreateResponse);
     rpc Process(ProcessRequest) returns (ProcessResponse);
 }
 
+
+
+message CreateRequest {
+    string name = 1;
+    string token = 2;
+    uint64 start = 3;
+
+    repeated Block blocks = 4;
+}
+
+message CreateResponse {
+    uint64 botId = 1;
+}
+
+
 message ProcessRequest {
-    uint64  botId  = 1;
-    uint64  userId = 2;
+    uint64 botId  = 1;
+    uint64 userId = 2;
     string text   = 3;
 }
 
@@ -18,11 +34,30 @@ message ProcessResponse {
     repeated Message messages = 1;
 }
 
-message Message {
-    string text = 1;
-    repeated Button buttons = 2;
+
+
+message Block {
+    uint64 state = 1;
+    int32  type  = 2;
+    uint64 default = 3;
+    string title = 4;
+    string text  = 5;
+
+    repeated BlockOption options = 6;
 }
 
-message Button {
+message BlockOption {
+    string text = 1;
+    uint64 next = 2;
+}
+
+
+message Message {
+    string text = 1;
+
+    repeated MessageOption buttons = 2;
+}
+
+message MessageOption {
     string text = 1;
 }

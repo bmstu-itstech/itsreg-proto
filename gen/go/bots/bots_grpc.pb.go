@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.19.6
-// source: proto/bots.proto
+// source: bots.proto
 
-package bots
+package pb_bots
 
 import (
 	context "context"
@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BotsServiceClient interface {
+	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 	Process(ctx context.Context, in *ProcessRequest, opts ...grpc.CallOption) (*ProcessResponse, error)
 }
 
@@ -31,6 +32,15 @@ type botsServiceClient struct {
 
 func NewBotsServiceClient(cc grpc.ClientConnInterface) BotsServiceClient {
 	return &botsServiceClient{cc}
+}
+
+func (c *botsServiceClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
+	out := new(CreateResponse)
+	err := c.cc.Invoke(ctx, "/itsreg.bots.BotsService/Create", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *botsServiceClient) Process(ctx context.Context, in *ProcessRequest, opts ...grpc.CallOption) (*ProcessResponse, error) {
@@ -46,6 +56,7 @@ func (c *botsServiceClient) Process(ctx context.Context, in *ProcessRequest, opt
 // All implementations must embed UnimplementedBotsServiceServer
 // for forward compatibility
 type BotsServiceServer interface {
+	Create(context.Context, *CreateRequest) (*CreateResponse, error)
 	Process(context.Context, *ProcessRequest) (*ProcessResponse, error)
 	mustEmbedUnimplementedBotsServiceServer()
 }
@@ -54,6 +65,9 @@ type BotsServiceServer interface {
 type UnimplementedBotsServiceServer struct {
 }
 
+func (UnimplementedBotsServiceServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+}
 func (UnimplementedBotsServiceServer) Process(context.Context, *ProcessRequest) (*ProcessResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Process not implemented")
 }
@@ -68,6 +82,24 @@ type UnsafeBotsServiceServer interface {
 
 func RegisterBotsServiceServer(s grpc.ServiceRegistrar, srv BotsServiceServer) {
 	s.RegisterService(&BotsService_ServiceDesc, srv)
+}
+
+func _BotsService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BotsServiceServer).Create(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/itsreg.bots.BotsService/Create",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BotsServiceServer).Create(ctx, req.(*CreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _BotsService_Process_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -96,10 +128,14 @@ var BotsService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*BotsServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "Create",
+			Handler:    _BotsService_Create_Handler,
+		},
+		{
 			MethodName: "Process",
 			Handler:    _BotsService_Process_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/bots.proto",
+	Metadata: "bots.proto",
 }
