@@ -4,7 +4,7 @@
 // - protoc             v3.19.6
 // source: bots.proto
 
-package pb_bots
+package bots
 
 import (
 	context "context"
