@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package itsreg.bots;
+
+option go_package = "github.com/zhikh23/itsreg-proto/gen/go/tg";
+
+service TgService {
+    rpc Start(StartRequest) returns (StartResponse);
+    rpc Stop(StopRequest) returns (StopResponse);
+}
+
+
+message StartRequest {
+    uint64 botId = 1;
+}
+
+message StartResponse {
+
+}
+
+
+message StopRequest {
+    uint64 botId = 1;
+}
+
+message StopResponse {
+
+}
