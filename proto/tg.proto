@@ -11,7 +11,7 @@ service TgService {
 
 
 message StartRequest {
-    uint64 botId = 1;
+    int64 botId = 1;
 }
 
 message StartResponse {
@@ -20,7 +20,7 @@ message StartResponse {
 
 
 message StopRequest {
-    uint64 botId = 1;
+    int64 botId = 1;
 }
 
 message StopResponse {
