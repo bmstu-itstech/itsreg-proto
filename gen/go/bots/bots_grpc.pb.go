@@ -24,7 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type BotsServiceClient interface {
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 	Process(ctx context.Context, in *ProcessRequest, opts ...grpc.CallOption) (*ProcessResponse, error)
-	GetToken(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*TokenResponse, error)
+	Token(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*TokenResponse, error)
 }
 
 type botsServiceClient struct {
@@ -37,7 +37,7 @@ func NewBotsServiceClient(cc grpc.ClientConnInterface) BotsServiceClient {
 
 func (c *botsServiceClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
 	out := new(CreateResponse)
-	err := c.cc.Invoke(ctx, "/itsreg.bots.BotsService/Create", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/itsreg.BotsService/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,16 +46,16 @@ func (c *botsServiceClient) Create(ctx context.Context, in *CreateRequest, opts 
 
 func (c *botsServiceClient) Process(ctx context.Context, in *ProcessRequest, opts ...grpc.CallOption) (*ProcessResponse, error) {
 	out := new(ProcessResponse)
-	err := c.cc.Invoke(ctx, "/itsreg.bots.BotsService/Process", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/itsreg.BotsService/Process", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *botsServiceClient) GetToken(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*TokenResponse, error) {
+func (c *botsServiceClient) Token(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*TokenResponse, error) {
 	out := new(TokenResponse)
-	err := c.cc.Invoke(ctx, "/itsreg.bots.BotsService/GetToken", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/itsreg.BotsService/Token", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func (c *botsServiceClient) GetToken(ctx context.Context, in *TokenRequest, opts
 type BotsServiceServer interface {
 	Create(context.Context, *CreateRequest) (*CreateResponse, error)
 	Process(context.Context, *ProcessRequest) (*ProcessResponse, error)
-	GetToken(context.Context, *TokenRequest) (*TokenResponse, error)
+	Token(context.Context, *TokenRequest) (*TokenResponse, error)
 	mustEmbedUnimplementedBotsServiceServer()
 }
 
@@ -82,8 +82,8 @@ func (UnimplementedBotsServiceServer) Create(context.Context, *CreateRequest) (*
 func (UnimplementedBotsServiceServer) Process(context.Context, *ProcessRequest) (*ProcessResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Process not implemented")
 }
-func (UnimplementedBotsServiceServer) GetToken(context.Context, *TokenRequest) (*TokenResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetToken not implemented")
+func (UnimplementedBotsServiceServer) Token(context.Context, *TokenRequest) (*TokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Token not implemented")
 }
 func (UnimplementedBotsServiceServer) mustEmbedUnimplementedBotsServiceServer() {}
 
@@ -108,7 +108,7 @@ func _BotsService_Create_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/itsreg.bots.BotsService/Create",
+		FullMethod: "/itsreg.BotsService/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BotsServiceServer).Create(ctx, req.(*CreateRequest))
@@ -126,7 +126,7 @@ func _BotsService_Process_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/itsreg.bots.BotsService/Process",
+		FullMethod: "/itsreg.BotsService/Process",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BotsServiceServer).Process(ctx, req.(*ProcessRequest))
@@ -134,20 +134,20 @@ func _BotsService_Process_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _BotsService_GetToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _BotsService_Token_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TokenRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BotsServiceServer).GetToken(ctx, in)
+		return srv.(BotsServiceServer).Token(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/itsreg.bots.BotsService/GetToken",
+		FullMethod: "/itsreg.BotsService/Token",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BotsServiceServer).GetToken(ctx, req.(*TokenRequest))
+		return srv.(BotsServiceServer).Token(ctx, req.(*TokenRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -156,7 +156,7 @@ func _BotsService_GetToken_Handler(srv interface{}, ctx context.Context, dec fun
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var BotsService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "itsreg.bots.BotsService",
+	ServiceName: "itsreg.BotsService",
 	HandlerType: (*BotsServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -168,8 +168,8 @@ var BotsService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _BotsService_Process_Handler,
 		},
 		{
-			MethodName: "GetToken",
-			Handler:    _BotsService_GetToken_Handler,
+			MethodName: "Token",
+			Handler:    _BotsService_Token_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -36,7 +36,7 @@ func NewTgServiceClient(cc grpc.ClientConnInterface) TgServiceClient {
 
 func (c *tgServiceClient) Start(ctx context.Context, in *StartRequest, opts ...grpc.CallOption) (*StartResponse, error) {
 	out := new(StartResponse)
-	err := c.cc.Invoke(ctx, "/itsreg.bots.TgService/Start", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/itsreg.TgService/Start", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (c *tgServiceClient) Start(ctx context.Context, in *StartRequest, opts ...g
 
 func (c *tgServiceClient) Stop(ctx context.Context, in *StopRequest, opts ...grpc.CallOption) (*StopResponse, error) {
 	out := new(StopResponse)
-	err := c.cc.Invoke(ctx, "/itsreg.bots.TgService/Stop", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/itsreg.TgService/Stop", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ func _TgService_Start_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/itsreg.bots.TgService/Start",
+		FullMethod: "/itsreg.TgService/Start",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TgServiceServer).Start(ctx, req.(*StartRequest))
@@ -112,7 +112,7 @@ func _TgService_Stop_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/itsreg.bots.TgService/Stop",
+		FullMethod: "/itsreg.TgService/Stop",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TgServiceServer).Stop(ctx, req.(*StopRequest))
@@ -124,7 +124,7 @@ func _TgService_Stop_Handler(srv interface{}, ctx context.Context, dec func(inte
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var TgService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "itsreg.bots.TgService",
+	ServiceName: "itsreg.TgService",
 	HandlerType: (*TgServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
