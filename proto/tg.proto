@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package itsreg.bots;
+package itsreg;
 
 option go_package = "github.com/zhikh23/itsreg-proto/gen/go/tg";
 

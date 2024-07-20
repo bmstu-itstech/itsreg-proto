@@ -1,14 +1,13 @@
 syntax = "proto3";
 
-package itsreg.bots;
+package itsreg;
 
 option go_package = "github.com/zhikh23/itsreg-proto/gen/go/bots";
 
 service BotsService {
     rpc Create(CreateRequest) returns (CreateResponse);
     rpc Process(ProcessRequest) returns (ProcessResponse);
-
-    rpc GetToken(TokenRequest) returns (TokenResponse);
+    rpc Token(TokenRequest) returns (TokenResponse);
 }
 
 
@@ -16,7 +15,7 @@ service BotsService {
 message CreateRequest {
     string name = 1;
     string token = 2;
-    uint64 start = 3;
+    int64  start = 3;
 
     repeated Block blocks = 4;
 }
@@ -38,7 +37,7 @@ message ProcessResponse {
 
 
 message TokenRequest {
-    uint64 botId = 1;
+    int64 botId = 1;
 }
 
 message TokenResponse {
@@ -47,19 +46,26 @@ message TokenResponse {
 
 
 
+enum BlockType {
+    Unknown   = 0;
+    BlockMessage   = 1;
+    BlockQuestion  = 2;
+    BlockSelection = 3;
+}
+
 message Block {
-    uint64 state = 1;
-    int32  type  = 2;
-    uint64 default = 3;
-    string title = 4;
-    string text  = 5;
+    int64     state = 1;
+    BlockType type  = 2;
+    int64     default = 3;
+    string    title = 4;
+    string    text  = 5;
 
     repeated BlockOption options = 6;
 }
 
 message BlockOption {
     string text = 1;
-    uint64 next = 2;
+    int64  next = 2;
 }
 
 
