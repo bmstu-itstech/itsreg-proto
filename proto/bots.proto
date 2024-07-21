@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package itsreg;
 
-option go_package = "github.com/zhikh23/itsreg-proto/gen/go/bots";
+option go_package = "github.com/bmstu-itstech/itsreg-proto/gen/go/bots";
 
 service BotsService {
     rpc Create(CreateRequest) returns (CreateResponse);
