@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "itsreg-gs.Protos";
+
+package sheets;
+
+service SheetsWriter{
+	rpc AddRecord (AddRecordRequest) returns (State);
+}
+
+message AddRecordRequest {
+	string token = 1;
+	repeated string data = 2;
+}
+
+message State {
+	string state = 1;
+}
